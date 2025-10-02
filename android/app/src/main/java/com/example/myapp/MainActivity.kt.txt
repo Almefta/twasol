@@ -1,0 +1,6 @@
+FirebaseMessaging.getInstance().token
+    .addOnCompleteListener { task ->
+        if (task.isSuccessful) {
+            Log.d("FCM", "token: ${task.result}")
+        }
+    }

@@ -1,0 +1,37 @@
+<!-- ملف: android/app/src/main/res/drawable/ic_stat_notify.xml
+     الغرض: أيقونة إشعار صغيرة (أبيض/شفاف) تظهر في شريط الحالة -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- شكل فقاعة محادثة -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="
+            M4,5
+            H20
+            a1,1 0 0 1 1,1
+            V13
+            a1,1 0 0 1 -1,1
+            H9
+            L5,18
+            V15
+            H4
+            a1,1 0 0 1 -1,-1
+            V6
+            a1,1 0 0 1 1,-1
+            Z" />
+
+    <!-- ثلاث نقاط داخل الفقاعة (تمثل رسالة/محادثة) -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M8,11a1,1 0 1,0 0.001,0Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M12,11a1,1 0 1,0 0.001,0Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M16,11a1,1 0 1,0 0.001,0Z" />
+</vector>

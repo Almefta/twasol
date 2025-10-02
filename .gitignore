@@ -1,0 +1,51 @@
+# Flutter / Dart
+.dart_tool/
+build/
+.packages
+.pub-cache/
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# Android
+android/.gradle/
+android/local.properties
+android/app/build/
+**/merged_native_libs/
+**/stripped_native_libs/
+**/incremental/
+**/zip-cache/
+*.apk
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework/
+ios/Flutter/Flutter.podspec
+ios/Flutter/App.framework
+ios/build/
+
+# Desktop/Web
+macos/Flutter/ephemeral/
+macos/build/
+windows/flutter/ephemeral/
+linux/flutter/ephemeral/
+web/.dart_tool/
+
+# Node
+node_modules/
+
+# Secrets
+**/serviceAccountKey.json
+*.keystore
+*.jks
+*.p12
+*.pem
+.env
+.env.*
+secrets/
+
+# Misc
+*.log

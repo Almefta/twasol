@@ -1,0 +1,97 @@
+<!-- ملف: android/app/src/main/AndroidManifest.xml -->
+<manifest package="com.chatapp.twasol" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- صلاحيات أساسية -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+     <uses-permission android:name="android.permission.WAKE_LOCK" />  
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <!-- لأندرويد 13+ -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <!-- لأجهزة أقدم إن احتجت -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <application
+        android:name="${applicationName}"
+        android:label="Twasol"
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
+        
+
+            الغرض: تحديد الأيقونة الافتراضية لإشعارات FCM التي يعرضها النظام -->
+        
+        <!-- 👇 إعدادات FCM الافتراضية (مرّة واحدة وتحت <application>) -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/notification_color" />
+
+        <!-- Default channel for FCM notifications (Android 8+) -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="TwasolChannel" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+
+            <!-- الثيم الذي يظهر قبل تهيئة Flutter -->
+            <meta-data
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- لا تحذف: يستخدمه Flutter لتسجيل الإضافات -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+
+        <!-- خدمة Firebase Messaging -->
+       <service
+          android:name=".MyFirebaseMessagingService"
+          android:exported="false">
+        <intent-filter>
+         <action android:name="com.google.firebase.MESSAGING_EVENT" />
+          </intent-filter>
+       </service>
+  
+  <!-- مستقبل الإشعارات -->
+        <receiver
+        android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"
+      android:exported="false" />
+       <receiver
+       android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
+        android:exported="false">
+      <intent-filter>
+      <action android:name="android.intent.action.BOOT_COMPLETED" />
+      <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+      <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+      </intent-filter>
+       </receiver>
+    </application>
+
+    <!-- مطلوبة لمعالجة النص بواسطة Flutter -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT" />
+            <data android:mimeType="text/plain" />
+        </intent>
+    </queries>
+</manifest>
