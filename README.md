@@ -1,16 +1,29 @@
-# flutter_application_1
+# Twasol — تطبيق مراسلة فورية
 
-A new Flutter project.
+[![Flutter CI](https://github.com/Almefta/twasol/actions/workflows/flutter-ci.yml/badge.svg?branch=feature/clean-initial)](https://github.com/Almefta/twasol/actions/workflows/flutter-ci.yml)
 
-## Getting Started
+تطبيق مراسلة فورية مبني بـ **Flutter** يركّز على السرعة والبساطة وقابلية التوسّع. يوفّر إرسال/استقبال الرسائل الفورية، الإشعارات، وإدارة الجلسات مع فصلٍ صارمٍ للأسرار وإعداد **CI** لضمان جودة البناء بشكل مستمر.
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+## المزايا
+- 💬 محادثات فورية (نصوص) مع بنية قابلة لإضافة ملفات/صور لاحقًا.
+- 🔔 إشعارات دفع (FCM) مع دعم foreground/background.
+- 👤 إدارة جلسات/مستخدمين (قابلة للتبديل حسب مزود المصادقة).
+- 🧹 جودة الكود: `flutter_lints` + `flutter analyze`.
+- ⚙️ تكامل مستمر (CI) عبر GitHub Actions: تحليل + (اختبارات إن وُجدت) + بناء APK Debug.
+- 🧩 بنية منظمة وسهلة التطوير وإضافة الميزات.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+> يوجد أداة فحص للإشعارات: `lib/debug/fcm_healthcheck.dart` للحصول على تقرير سريع عن الصلاحيات والـtoken.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## المتطلبات
+- Flutter (قناة **stable**)  
+- Android SDK + **Java 17**  
+- (اختياري) Xcode & CocoaPods لـ iOS
+
+تحقّق سريع:
+```bash
+flutter --version
+flutter doctor -v
