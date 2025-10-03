@@ -13,14 +13,16 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+    env:
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx3g -XX:+HeapDumpOnOutOfMemoryError"
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Java 17 لأندرويد/جرادل
+      # Java 17 مطلوبة لـ AGP الحديثة
       - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
@@ -34,11 +36,19 @@ jobs:
           channel: stable
           cache: true
 
-      # قبول رخص الأندرويد
-      - name: Accept Android licenses
-        run: yes | flutter doctor --android-licenses
+      - name: Flutter version
+        run: flutter --version
 
-      - name: Flutter doctor
+      # ثبّت مكوّنات SDK الأكثر شيوعًا (لتفادي خطأ "Failed to find target android-XX")
+      - name: Install Android SDK components
+        run: |
+          yes | ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --licenses || true
+          yes | sdkmanager --licenses || true
+          sdkmanager "platform-tools" || true
+          sdkmanager "platforms;android-34" "build-tools;34.0.0" || true
+          sdkmanager "platforms;android-33" "build-tools;33.0.2" || true
+
+      - name: Doctor (verbose)
         run: flutter doctor -v
 
       - name: Pub get
@@ -50,15 +60,17 @@ jobs:
       - name: Test (if any)
         run: |
           if [ -d "test" ] && [ "$(ls -A test)" ]; then
-            flutter test
+            flutter test -v
           else
             echo "No tests found, skipping."
           fi
 
-      - name: Build Android (debug)
-        run: flutter build apk --debug
+      # اجعل البناء أكثر تفصيلاً لتشخيص أي خطأ Gradle/Android
+      - name: Build Android (debug, verbose)
+        run: flutter build apk --debug -v
 
-      - name: Upload APK artifact
+      - name: Upload APK artifact (if exists)
+        if: ${{ success() }}
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
