@@ -39,7 +39,7 @@ jobs:
       - name: Flutter version
         run: flutter --version
 
-      # ثبّت مكونات SDK الشائعة لتفادي "Failed to find target android-XX"
+      # تثبيت مكونات SDK الشائعة لتفادي أخطاء platform/build-tools
       - name: Install Android SDK components
         run: |
           yes | ${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager --licenses || true
@@ -54,7 +54,7 @@ jobs:
       - name: Pub get
         run: flutter pub get
 
-      # جعل التحليل غير مُعيق مؤقتًا
+      # التحليل غير مُعيق مؤقتًا (سنشدد لاحقًا بعد تنظيف التحذيرات)
       - name: Analyze (non-fatal)
         run: flutter analyze --no-fatal-infos --no-fatal-warnings
 
@@ -66,13 +66,18 @@ jobs:
             echo "No tests found, skipping."
           fi
 
-      # بناء أندرويد مع لوج تفصيلي لتشخيص أي مشاكل Gradle/Android
-      - name: Build Android (debug, verbose)
-        run: flutter build apk --debug -v
+      # بناء APK عبر Gradle مباشرة لظهور سبب الخطأ بوضوح
+      - name: Build Android (debug, verbose + stacktrace)
+        working-directory: android
+        run: |
+          ./gradlew --version
+          ./gradlew app:assembleDebug --stacktrace --warning-mode all --no-daemon
 
+      # رفع الـAPK الناتج كـ Artifact
       - name: Upload APK artifact (if exists)
         if: ${{ success() }}
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: build/app/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+        working-directory: android
