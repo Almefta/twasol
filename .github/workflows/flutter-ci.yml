@@ -73,11 +73,10 @@ jobs:
           ./gradlew --version
           ./gradlew app:assembleDebug --stacktrace --warning-mode all --no-daemon
 
-      # رفع الـAPK الناتج كـ Artifact
+      # رفع الـAPK الناتج كـ Artifact (من جذر المشروع دون working-directory)
       - name: Upload APK artifact (if exists)
         if: ${{ success() }}
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
-        working-directory: android
+          path: android/app/build/outputs/apk/debug/app-debug.apk
